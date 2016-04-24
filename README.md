@@ -7,7 +7,8 @@
 [Documentation](https://birkenfeld.github.io/iter-read/iter_read/index.html)
 
 This crate is a small library that provides a type that implements
-`std::io::Read` for iterators over bytes (`u8`) and related types.
+`std::io::Read` for iterators over bytes (`u8`) and sequences of it, and also
+`Result<u8, E>`, `Result<Vec<u8>, E>` etc.
 
 Installation
 ============

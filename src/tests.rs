@@ -4,14 +4,49 @@
 // your option. This file may not be copied, modified, or distributed except
 // according to those terms.
 
-use std::io::Read;
+use std::fmt;
+use std::error::Error;
+use std::io::{self, Read, ErrorKind};
 use {IterRead, IterReadItem};
+
+#[derive(Debug)]
+struct MyError;
+type MyResult<T> = Result<T, MyError>;
+
+impl fmt::Display for MyError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "oh no")
+    }
+}
+
+impl Error for MyError {
+    fn description(&self) -> &str {
+        "oh no"
+    }
+}
+
+impl Into<io::Error> for MyError {
+    fn into(self) -> io::Error {
+        io::Error::new(ErrorKind::Other, self)
+    }
+}
+
+fn err<T>() -> Result<T, MyError> {
+    Err(MyError)
+}
 
 fn check_equal<E: IterReadItem, I: Iterator<Item=E>>(iter: I) {
     let mut reader = IterRead::new(iter);
     let mut buffer = Vec::new();
     reader.read_to_end(&mut buffer).unwrap();
     assert_eq!(buffer, b"abcdefghijklmnopqrstuvwxyz");
+}
+
+fn check_err<E: IterReadItem, I: Iterator<Item=E>>(iter: I) {
+    let mut reader = IterRead::new(iter);
+    let mut buffer = Vec::new();
+    let err = reader.read_to_end(&mut buffer).unwrap_err();
+    assert_eq!(err.description(), "oh no");
 }
 
 #[test]
@@ -44,6 +79,22 @@ fn test_str() {
     check_equal(test.iter());
     check_equal(test.iter().map(|v| v.as_str()));
     check_equal(test.into_iter());
+}
+
+#[test]
+fn test_result() {
+    let test: Vec<MyResult<u8>> = (b'a'..b'{').map(|v| Ok(v)).collect();
+    check_equal(test.into_iter());
+    let test: Vec<MyResult<u8>> = vec![Ok(b'a'), Ok(b'b'),
+                                       err(), Ok(b'd')];
+    check_err(test.into_iter());
+    let test: Vec<MyResult<Vec<u8>>> = vec![
+        Ok(b"abcdefghijk".to_vec()),
+        Ok(b"lmnopqrstuvwxyz".to_vec())];
+    check_equal(test.into_iter());
+    let test: Vec<MyResult<Vec<u8>>> = vec![Ok(b"abc".to_vec()),
+                                            err()];
+    check_err(test.into_iter());
 }
 
 

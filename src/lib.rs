@@ -42,10 +42,13 @@ pub trait IterReadItem {
 /// implement `IterReadItem`) as a `Read`.
 ///
 /// `IterReadItem` is implemented for `u8`, `&u8`, `Vec<u8>` and its borrowed
-/// variants as well as `String` and its borrowed variants.
+/// variants as well as `String` and its borrowed variants.  It is also
+/// implemented for all iterators that take a `Result` type whose `Ok` value is
+/// an `IterReadItem` and whose `Err` value can be converted to an
+/// `std::io::Error` with `into()`.
 ///
-/// For types other than `u8` the adapter might need to buffer some contents of
-/// the iterator.
+/// For inner types other than `u8` the adapter might need to buffer some
+/// contents of the iterator.
 pub struct IterRead<E: IterReadItem, I: Iterator<Item=E>> {
     iter: I,
     buf: E::Buffer,
