@@ -1,7 +1,7 @@
 `iter-read`
 ===========
 
-[![Build status](https://api.travis-ci.org/birkenfeld/iter-read.png)](https://travis-ci.org/birkenfeld/serde-pickle)
+[![Build status](https://api.travis-ci.org/birkenfeld/iter-read.png)](https://travis-ci.org/birkenfeld/iter-read)
 [![Latest Version](https://img.shields.io/crates/v/iter-read.svg)](https://crates.io/crates/iter-read)
 
 [Documentation](https://birkenfeld.github.io/iter-read/iter_read/index.html)
