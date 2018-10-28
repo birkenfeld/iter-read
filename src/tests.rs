@@ -1,4 +1,4 @@
-// Copyright (c) 2015-2016 Georg Brandl.  Licensed under the Apache License,
+// Copyright (c) 2015-2018 Georg Brandl.  Licensed under the Apache License,
 // Version 2.0 <LICENSE-APACHE or http://www.apache.org/licenses/LICENSE-2.0>
 // or the MIT license <LICENSE-MIT or http://opensource.org/licenses/MIT>, at
 // your option. This file may not be copied, modified, or distributed except
@@ -25,9 +25,9 @@ impl Error for MyError {
     }
 }
 
-impl Into<io::Error> for MyError {
-    fn into(self) -> io::Error {
-        io::Error::new(ErrorKind::Other, self)
+impl From<MyError> for io::Error {
+    fn from(e: MyError) -> io::Error {
+        io::Error::new(ErrorKind::Other, e)
     }
 }
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-2016 Georg Brandl.  Licensed under the Apache License,
+// Copyright (c) 2015-2018 Georg Brandl.  Licensed under the Apache License,
 // Version 2.0 <LICENSE-APACHE or http://www.apache.org/licenses/LICENSE-2.0>
 // or the MIT license <LICENSE-MIT or http://opensource.org/licenses/MIT>, at
 // your option. This file may not be copied, modified, or distributed except
@@ -57,7 +57,7 @@ pub struct IterRead<E: IterReadItem, I: Iterator<Item=E>> {
 impl<E: IterReadItem, I: Iterator<Item=E>> IterRead<E, I> {
     /// Create a new `IterRead` which will read from the specified `Iterator`.
     pub fn new(iter: I) -> IterRead<E, I> {
-        IterRead { iter: iter, buf: Default::default() }
+        IterRead { iter, buf: Default::default() }
     }
 
     /// Unwrap the inner iterator.  If the adapter uses buffering, the contents
