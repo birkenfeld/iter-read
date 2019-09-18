@@ -1,6 +1,7 @@
 [package]
 name = "iter-read"
 version = "0.2.0"
+edition = "2018"
 authors = ["Georg Brandl <georg@python.org>"]
 license = "MIT/Apache-2.0"
 description = "A Read implementation for iterators over u8 and related types"

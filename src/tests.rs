@@ -1,4 +1,4 @@
-// Copyright (c) 2015-2018 Georg Brandl.  Licensed under the Apache License,
+// Copyright (c) 2015-2019 Georg Brandl.  Licensed under the Apache License,
 // Version 2.0 <LICENSE-APACHE or http://www.apache.org/licenses/LICENSE-2.0>
 // or the MIT license <LICENSE-MIT or http://opensource.org/licenses/MIT>, at
 // your option. This file may not be copied, modified, or distributed except
@@ -7,7 +7,8 @@
 use std::fmt;
 use std::error::Error;
 use std::io::{self, Read, ErrorKind};
-use {IterRead, IterReadItem};
+
+use crate::{IterRead, IterReadItem};
 
 #[derive(Debug)]
 struct MyError;
@@ -104,7 +105,7 @@ mod benches {
     use self::test::Bencher;
     use std::io::Read;
     use std::iter;
-    use {IterRead, IterReadItem};
+    use crate::{IterRead, IterReadItem};
 
     const N: usize = 200000;
     const NB: u64 = N as u64;
@@ -122,7 +123,7 @@ mod benches {
         let vec = vec![BYTE; N];
         b.bytes = NB;
         b.iter(|| {
-            vec.iter().cloned().collect::<Vec<_>>();
+            let _ = vec.iter().cloned().collect::<Vec<_>>();
         });
     }
 
