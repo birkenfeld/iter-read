@@ -20,11 +20,7 @@ impl fmt::Display for MyError {
     }
 }
 
-impl Error for MyError {
-    fn description(&self) -> &str {
-        "oh no"
-    }
-}
+impl Error for MyError {}
 
 impl From<MyError> for io::Error {
     fn from(e: MyError) -> io::Error {
@@ -46,8 +42,8 @@ fn check_equal<E: IterReadItem, I: Iterator<Item=E>>(iter: I) {
 fn check_err<E: IterReadItem, I: Iterator<Item=E>>(iter: I) {
     let mut reader = IterRead::new(iter);
     let mut buffer = Vec::new();
-    let err = reader.read_to_end(&mut buffer).unwrap_err();
-    assert_eq!(err.description(), "oh no");
+    let err = reader.read_to_end(&mut buffer).unwrap_err();    
+    assert_eq!(err.to_string(), "oh no");
 }
 
 #[test]

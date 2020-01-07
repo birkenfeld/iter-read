@@ -21,6 +21,11 @@ This crate works with Cargo and can be found on
 iter-read = "*"
 ```
 
+Requirements
+============
+
+Minimum supported Rust version is 1.31.0.  No other dependencies.
+
 Usage
 =====
 
