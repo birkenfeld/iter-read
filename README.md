@@ -10,6 +10,10 @@ This crate is a small library that provides a type that implements
 `std::io::Read` for iterators over bytes (`u8`) and sequences of it, and also
 `Result<u8, E>`, `Result<Vec<u8>, E>` etc.
 
+The iterators must be fused (i.e. guarantee a `None` return from `next()`
+after they have returned `None` once); you need to call `.fuse()` on
+iterators that don't implement `std::iter::FusedIterator`.
+
 Installation
 ============
 
@@ -18,7 +22,7 @@ This crate works with Cargo and can be found on
 
 ```toml
 [dependencies]
-iter-read = "0.2"
+iter-read = "0.3"
 ```
 
 Requirements

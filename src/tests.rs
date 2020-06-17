@@ -7,6 +7,7 @@
 use std::fmt;
 use std::error::Error;
 use std::io::{self, Read, ErrorKind};
+use std::iter::FusedIterator;
 
 use crate::{IterRead, IterReadItem};
 
@@ -32,17 +33,17 @@ fn err<T>() -> Result<T, MyError> {
     Err(MyError)
 }
 
-fn check_equal<E: IterReadItem, I: Iterator<Item=E>>(iter: I) {
+fn check_equal<E: IterReadItem, I: FusedIterator<Item=E>>(iter: I) {
     let mut reader = IterRead::new(iter);
     let mut buffer = Vec::new();
     reader.read_to_end(&mut buffer).unwrap();
     assert_eq!(buffer, b"abcdefghijklmnopqrstuvwxyz");
 }
 
-fn check_err<E: IterReadItem, I: Iterator<Item=E>>(iter: I) {
+fn check_err<E: IterReadItem, I: FusedIterator<Item=E>>(iter: I) {
     let mut reader = IterRead::new(iter);
     let mut buffer = Vec::new();
-    let err = reader.read_to_end(&mut buffer).unwrap_err();    
+    let err = reader.read_to_end(&mut buffer).unwrap_err();
     assert_eq!(err.to_string(), "oh no");
 }
 
@@ -123,7 +124,7 @@ mod benches {
         });
     }
 
-    fn read_all<E: IterReadItem, I: Iterator<Item=E>>(iter: I) {
+    fn read_all<E: IterReadItem, I: iter::FusedIterator<Item=E>>(iter: I) {
         let mut reader = IterRead::new(iter);
         let mut buffer = vec![0; N];
         reader.read_exact(&mut buffer).unwrap();
