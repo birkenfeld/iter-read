@@ -24,7 +24,7 @@
 #![cfg_attr(feature = "unstable", feature(test))]
 
 use std::io::{Read, Result};
-use std::iter::FusedIterator;
+use std::iter::Fuse;
 
 
 /// Trait that should be implemented for any type which can be used in an
@@ -50,25 +50,25 @@ pub trait IterReadItem {
 ///
 /// For inner types other than `u8` the adapter might need to buffer some
 /// contents of the iterator.
-pub struct IterRead<E: IterReadItem, I: FusedIterator<Item=E>> {
-    iter: I,
+pub struct IterRead<E: IterReadItem, I: Iterator<Item=E>> {
+    iter: Fuse<I>,
     buf: E::Buffer,
 }
 
-impl<E: IterReadItem, I: FusedIterator<Item=E>> IterRead<E, I> {
+impl<E: IterReadItem, I: Iterator<Item=E>> IterRead<E, I> {
     /// Create a new `IterRead` which will read from the specified `Iterator`.
     pub fn new(iter: I) -> IterRead<E, I> {
-        IterRead { iter, buf: Default::default() }
+        IterRead { iter: iter.fuse(), buf: Default::default() }
     }
 
     /// Unwrap the inner iterator.  If the adapter uses buffering, the contents
     /// of the buffer are lost.
-    pub fn into_inner(self) -> I {
+    pub fn into_inner(self) -> Fuse<I> {
         self.iter
     }
 }
 
-impl<E: IterReadItem, I: FusedIterator<Item=E>> Read for IterRead<E, I> {
+impl<E: IterReadItem, I: Iterator<Item=E>> Read for IterRead<E, I> {
     fn read(&mut self, buf: &mut [u8]) -> Result<usize> {
         E::read(buf, &mut self.iter, &mut self.buf)
     }
