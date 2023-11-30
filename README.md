@@ -18,13 +18,13 @@ This crate works with Cargo and can be found on
 
 ```toml
 [dependencies]
-iter-read = "0.3"
+iter-read = "1.0"
 ```
 
 Requirements
 ============
 
-Minimum supported Rust version is 1.41.1.  No other dependencies.
+Minimum supported Rust version is 1.48.0.  No other dependencies.
 
 Usage
 =====
