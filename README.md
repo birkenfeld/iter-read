@@ -31,7 +31,7 @@ Usage
 
 A simple example:
 
-```
+```rust
 use std::io::Read;
 use iter_read::IterRead;
 let source = vec![1, 2, 7, 42, 123];
