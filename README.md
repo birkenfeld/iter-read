@@ -1,10 +1,10 @@
 `iter-read`
 ===========
 
-[![Build status](https://api.travis-ci.org/birkenfeld/iter-read.png)](https://travis-ci.org/birkenfeld/iter-read)
+[![Build status](https://img.shields.io/github/actions/workflow/status/birkenfeld/iter-read/main.yml?branch=master&logo=github&style=)](https://github.com/birkenfeld/iter-read/actions)
 [![Latest Version](https://img.shields.io/crates/v/iter-read.svg)](https://crates.io/crates/iter-read)
 
-[Documentation](https://birkenfeld.github.io/iter-read/iter_read/index.html)
+[Documentation](https://docs.rs/iter-read)
 
 This crate is a small library that provides a type that implements
 `std::io::Read` for iterators over bytes (`u8`) and sequences of it, and also
