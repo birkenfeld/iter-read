@@ -24,7 +24,7 @@ iter-read = "1.0"
 Requirements
 ============
 
-Minimum supported Rust version is 1.48.0.  No other dependencies.
+Minimum supported Rust version is 1.58.0.  No other dependencies.
 
 Usage
 =====

@@ -8,6 +8,7 @@ description = "A Read implementation for iterators over u8 and related types"
 repository = "https://github.com/birkenfeld/iter-read"
 keywords = ["iterator", "reader", "read"]
 readme = "README.md"
+rust-version = "1.58"
 
 [features]
 unstable = []

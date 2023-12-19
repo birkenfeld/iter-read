@@ -67,6 +67,19 @@ fn test_slice() {
 }
 
 #[test]
+fn test_array() {
+    let test: Vec<[u8; 13]> = vec![*b"abcdefghijklm", *b"nopqrstuvwxyz"];
+    check_equal(test.iter());
+    check_equal(test.into_iter());
+
+    let test: Vec<[u8; 2]>  = vec![*b"ab", *b"cd", *b"ef", *b"gh", *b"ij",
+                                   *b"kl", *b"mn", *b"op", *b"qr", *b"st",
+                                   *b"uv", *b"wx", *b"yz"];
+    check_equal(test.iter());
+    check_equal(test.into_iter());
+}
+
+#[test]
 fn test_str() {
     let test: Vec<String> = vec!["abcdef".into(),
                                  "g".into(),

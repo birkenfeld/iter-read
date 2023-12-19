@@ -42,8 +42,8 @@ pub trait IterReadItem {
 /// An adapter that allows treating iterators of bytes (and other types that
 /// implement `IterReadItem`) as a `Read`.
 ///
-/// `IterReadItem` is implemented for `u8`, `&u8`, `Vec<u8>` and its borrowed
-/// variants as well as `String` and its borrowed variants.  It is also
+/// `IterReadItem` is implemented for `u8`, `&u8`, `Vec<u8>`, `[u8; N]` and its
+/// borrowed variants as well as `String` and its borrowed variants.  It is also
 /// implemented for all iterators that take a `Result` type whose `Ok` value is
 /// an `IterReadItem` and whose `Err` value can be converted to an
 /// `std::io::Error` with `into()`.

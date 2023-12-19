@@ -9,7 +9,7 @@ jobs:
     strategy:
       matrix:
         toolchain:
-          - 1.31.0
+          - 1.58.1
           - stable
           - nightly
     steps:
