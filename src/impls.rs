@@ -89,3 +89,51 @@ impl_slice_like!(Vec<u8>, Vec<u8>, into);
 impl_slice_like!(&'a str, &'a [u8], as_bytes);
 impl_slice_like!(&'a String, &'a [u8], as_bytes);
 impl_slice_like!(String, Vec<u8>, into_bytes);
+
+pub struct IterReadArrayBuffer<const N: usize> {
+    bytes: [u8; N],
+    skip: usize,
+}
+
+impl<const N: usize> Default for IterReadArrayBuffer<N> {
+    fn default() -> Self {
+        Self {
+            bytes: [0; N],
+            skip: N,
+        }
+    }
+}
+
+impl<const N: usize> IterReadItem for [u8; N] {
+    type Buffer = IterReadArrayBuffer<N>;
+
+    fn read<I: Iterator<Item = Self>>(
+        mut target: &mut [u8],
+        it: &mut I,
+        buffer: &mut Self::Buffer,
+    ) -> std::io::Result<usize>
+    where
+        Self: Sized,
+    {
+        let target_start_len = target.len();
+
+        while !target.is_empty() {
+            if buffer.skip == N {
+                let new_bytes = match it.next() {
+                    None => break,
+                    Some(bytes) => bytes,
+                };
+
+                *buffer = IterReadArrayBuffer {bytes: new_bytes, skip: 0};
+            }
+
+            let copy_from_buffer = (N - buffer.skip).min(target.len());
+            target[..copy_from_buffer]
+                .copy_from_slice(&buffer.bytes[buffer.skip..][..copy_from_buffer]);
+            target = &mut target[copy_from_buffer..];
+            buffer.skip += copy_from_buffer;
+        }
+
+        Ok(target_start_len - target.len())
+    }
+}
