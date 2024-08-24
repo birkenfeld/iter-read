@@ -92,8 +92,9 @@ fn test_str() {
 }
 
 #[test]
+#[allow(clippy::needless_collect)]
 fn test_result() {
-    let test: Vec<MyResult<u8>> = (b'a'..b'{').map(|v| Ok(v)).collect();
+    let test: Vec<MyResult<u8>> = (b'a'..b'{').map(Ok).collect();
     check_equal(test.into_iter());
     let test: Vec<MyResult<u8>> = vec![Ok(b'a'), Ok(b'b'),
                                        err(), Ok(b'd')];
